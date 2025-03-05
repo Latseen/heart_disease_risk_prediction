@@ -1,6 +1,3 @@
-# dataset
-heart_disease_dataset_earlymed.csv
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
