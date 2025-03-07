@@ -1,4 +1,4 @@
-# main.py
+# train.py
 # Chet Russell
 # Training file to train XGBoost model on values given from dataset
 
@@ -11,8 +11,8 @@ from sklearn.model_selection import cross_val_score
 from xgboost import plot_importance, XGBModel
 from xgboost import plot_tree
 
-classifier = False
-return_graphs = False
+classification = True
+return_graphs = True
 
 data = pd.read_csv("heart_disease_risk_dataset_earlymed.csv")
 xgb.set_config(verbosity=2)
@@ -30,7 +30,7 @@ X, y = dataset[:, :-1], dataset[:, -1]
 model = XGBModel
 scoring = ""
 
-if classifier:
+if classification:
     # define model
     model = xgb.XGBClassifier(
         tree_method="hist",
@@ -49,7 +49,7 @@ cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=2)
 # evaluate model
 scores = cross_val_score(model, X, y, cv=cv, n_jobs=-1, scoring=scoring)
 
-if classifier:
+if classification:
     print("Accuracy: ", "{:.3f}".format(scores.mean()))
 else:
     scores = absolute(scores)
@@ -57,7 +57,7 @@ else:
 
 # train and save model
 model.fit(X, y)
-if classifier:
+if classification:
     model.save_model("model_classification.json")
 else:
     model.save_model("model_regression.json")
